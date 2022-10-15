@@ -13,27 +13,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 // over all habit summary
   List habitList = [
-    ['exercise', false, 0, 10],
+    ['exercise', false, 0, 1],
     ['meditate', false, 0, 20],
     ['code', false, 0, 40],
     ['read', false, 0, 20],
   ];
   void habitStarted(int index) {
     var startTime = DateTime.now();
+// time already elapsed
+    int elapsedTime = habitList[index][2];
     setState(() {
       habitList[index][1] = !habitList[index][1];
     });
+    if (habitList[index][1]) {
+      Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          if (!habitList[index][1]) {
+            timer.cancel();
+          }
 
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (!habitList[index][1]) {
-          timer.cancel();
-        }
-
-        var currentTime = DateTime.now();
-        habitList[index][2] = currentTime.second - startTime.second;
+          var currentTime = DateTime.now();
+          habitList[index][2] = elapsedTime +
+              currentTime.second -
+              startTime.second +
+              60 * (currentTime.minute - startTime.minute) +
+              60 * 60 * (currentTime.hour - startTime.hour);
+        });
       });
-    });
+    }
   }
 
   void settingsOpened(int index) {
