@@ -1,6 +1,9 @@
 # habit_tracker
 
 A new Flutter project.
+Features like adding activities giving time period.
+showing how much an activity is completed.
+
 
 ## Getting Started
 
